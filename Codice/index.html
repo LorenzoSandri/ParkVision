@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ParkVision</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> <!-- Importo il foglio di stile della mappa -->
+  
+  <style>
+    html, body {
+      height: 100%;
+    }
+    #mappa {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="mappa"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Importo la mappa con le sue funzioni -->
+  <script>
+    //Impostazioni base della mappa
+    var coordsTrento = [46.07, 11.12];
+    var zoomMin = 13;
+    var zoomMax = 17;
+
+    //Bordi della mappa
+    var boundsTrento = [
+      [46.03, 11.08], //Angolo sud-ovest
+      [46.115, 11.17]  //Angolo nord-est
+    ];
+
+
+    var mappa = L.map('mappa', {
+      center: coordsTrento,
+      zoom: zoomMin,
+      minZoom: zoomMin,
+      maxZoom: zoomMax,
+      scrollWheelZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      touchZoom: true,
+      maxBounds: boundsTrento,
+      maxBoundsViscosity: 1.0 //Impostato a 1 vuol dire che mi blocca al bordo
+    });
+
+    //Carica tutte le tiles della mappa, uso questa mappa perchè non ha i nomi dei luoghi a caso
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{ attribution: '&copy; OpenStreetMap &copy; CARTO' }).addTo(mappa);
+
+
+
+
+    //Parco di test (Giardino Alexander Langer)
+
+    var parkCoords = [
+    [46.0549, 11.1251],
+    [46.0537, 11.1233],
+    [46.0541, 11.1230],
+    [46.0549, 11.1237],
+    [46.0556, 11.1272],
+    [46.0553, 11.1289],
+    [46.0550, 11.1290]
+    ];
+
+    //Crea in automatico un poligono con le coordinate
+    var giardino = L.polygon(parkCoords, {
+        color: "#007a00",
+        fillColor: "#00cc44",
+        fillOpacity: 0.4
+    }).addTo(mappa);
+
+    //Posso metterci una qualunque roba html qua dentro
+    giardino.bindPopup(`
+        <div class="popup-scheda">
+            <h3>Giardino Alexander Langer</h3>
+            <p><b>Area:</b> 1.2 ha</p>
+            <p><b>Tipologia:</b> Parco urbano</p>
+            <p><b>Apertura:</b> 08:00 - 20:00</p>
+            <p><b>Note:</b> Ideale per ubriacarsi e fare rissa.</p>
+        </div>
+    `);
+
+
+
+
+
+
+
+    //Disabilito lo spostamento quando non sono zoommato perchè altrimenti "rimbalza" ed è brutto
+    function limitaSpostamento() {
+      if(mappa.getZoom() === zoomMin) mappa.dragging.disable();
+      else mappa.dragging.enable();
+    }
+
+    limitaSpostamento();
+    mappa.on('zoomend', limitaSpostamento); //Ad ogni modifica dello zoom controllo se posso muovermi 
+
+  </script>
+</body>
+</html>
