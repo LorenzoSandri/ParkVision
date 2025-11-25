@@ -1,104 +1,165 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ParkVision</title>
+  <title>Mappa Parchi di Trento</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> <!-- Importo il foglio di stile della mappa -->
-  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    html, body {
-      height: 100%;
-    }
-    #mappa {
-      height: 100%;
-      width: 100%;
-    }
+    html, body { height: 100%; margin: 0; }
+    #mappa { height: 100%; width: 100%; }
+    .leaflet-top.leaflet-left .dropdown-menu { background: white; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); padding: 5px 10px; display: none; position: absolute; z-index: 1000; top: 30px; left: 5px; min-width: 140px;}
+    .leaflet-top.leaflet-left .dropdown-menu a { display: block; padding: 4px 0; text-decoration: none; color: #333; cursor: pointer;}
+    .leaflet-top.leaflet-left .dropdown-menu a:hover { background-color: #f0f0f0;}
+    .dropdown-btn { background: white; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; padding: 4px 8px; font-weight: bold; user-select: none;}
   </style>
 </head>
 <body>
-  <div id="mappa"></div>
+<div id="mappa"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+var mappa = L.map('mappa', {
+  center: [46.07, 11.12],
+  zoom: 12,
+  minZoom: 10,
+  maxZoom: 17,
+  scrollWheelZoom: true,
+  doubleClickZoom: true,
+  boxZoom: true,
+  keyboard: true,
+  touchZoom: true,
+  zoomControl: false
+});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap &copy; CARTO'
+}).addTo(mappa);
+L.control.zoom({ position: 'bottomleft' }).addTo(mappa);
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Importo la mappa con le sue funzioni -->
-  <script>
-    //Impostazioni base della mappa
-    var coordsTrento = [46.07, 11.12];
-    var zoomMin = 13;
-    var zoomMax = 17;
-
-    //Bordi della mappa
-    var boundsTrento = [
-      [46.03, 11.08], //Angolo sud-ovest
-      [46.115, 11.17]  //Angolo nord-est
+// Dropdown menu
+var DropdownMenu = L.Control.extend({
+  options: { position: 'topleft' },
+  onAdd: function(map) {
+    var container = L.DomUtil.create('div', 'leaflet-bar dropdown-container');
+    var btn = L.DomUtil.create('a', 'dropdown-btn', container);
+    btn.innerHTML = 'Menu ▼';
+    var menu = L.DomUtil.create('div', 'dropdown-menu', container);
+    var items = [
+      { text: 'News', href: '#' },
+      { text: 'Login', href: '#' },
+      { text: 'Invia segnalazione', href: '#' },
+      { text: 'Profilo', href: '#' }
     ];
-
-
-    var mappa = L.map('mappa', {
-      center: coordsTrento,
-      zoom: zoomMin,
-      minZoom: zoomMin,
-      maxZoom: zoomMax,
-      scrollWheelZoom: true,
-      doubleClickZoom: true,
-      boxZoom: true,
-      keyboard: true,
-      touchZoom: true,
-      maxBounds: boundsTrento,
-      maxBoundsViscosity: 1.0 //Impostato a 1 vuol dire che mi blocca al bordo
+    items.forEach(function(item) {
+      var link = L.DomUtil.create('a', '', menu);
+      link.innerText = item.text;
+      link.href = item.href;
+      L.DomEvent.disableClickPropagation(link);
     });
+    L.DomEvent.on(btn, 'click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    });
+    map.on('click', function() { menu.style.display = 'none'; });
+    L.DomEvent.disableClickPropagation(container);
+    L.DomEvent.disableScrollPropagation(container);
+    return container;
+  }
+});
+mappa.addControl(new DropdownMenu());
 
-    //Carica tutte le tiles della mappa, uso questa mappa perchè non ha i nomi dei luoghi a caso
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{ attribution: '&copy; OpenStreetMap &copy; CARTO' }).addTo(mappa);
+// Stile icona parchi (dimensione e anchor come Alexander Langer)
+var parkIconBase = L.icon({
+  iconUrl: 'icona.png',
+  iconSize: [48, 48],
+  iconAnchor: [24, 48],
+  popupAnchor: [0, -48]
+});
 
+// Parco di test: Giardino Alexander Langer
+var coordsGiardinoAlexanderLanger = [46.0549, 11.1251];
+var giardino = L.marker(coordsGiardinoAlexanderLanger, { icon: parkIconBase }).addTo(mappa);
+giardino.bindPopup(`
+  <div class="popup-scheda">
+    <h3>Giardino Alexander Langer</h3>
+    <p><b>Area:</b> 1.2 ha</p>
+    <p><b>Tipologia:</b> Parco urbano</p>
+    <p><b>Apertura:</b> 08:00 - 20:00</p>
+    <p><b>Note:</b> Ideale per ubriacarsi e fare rissa.</p>
+  </div>
+`);
 
+// Altri parchi cittadini
+var parks = [
+  {
+    nome: "Parco Bosco della Città",
+    coords: [46.0344750, 11.1428669],
+    info: "Località S. Rocco, Trento"
+  },
+  {
+    nome: "Giardino Rosanna Carrozzini",
+    coords: [46.03789, 11.12884],
+    info: "Via di Stella di Man, 57, Trento"
+  },
+  {
+    nome: "Giardino Maria Teresa d'Amburgo",
+    coords: [46.056037, 11.126992],
+    info: "Via Anna Frank, Trento"
+  },
+  {
+    nome: "Parco Gocciadoro",
+    coords: [46.056508, 11.137302],
+    info: "Via Vicenza, Trento"
+  },
+  {
+    nome: "Giardino Fratelli Bernardi",
+    coords: [46.061120, 11.126818],
+    info: "Lungo Fersina, Trento"
+  },
+  {
+    nome: "Parco Fratelli Michelin",
+    coords: [46.080888, 11.113087],
+    info: "Via Roberto da Sanseverino, Trento"
+  },
+  {
+    nome: "Parco Giochi Lodron",
+    coords: [46.0677885, 11.1234028],
+    info: "Piazza Lodron, Trento"
+  },
+  {
+    nome: "Parco delle Coste",
+    coords: [46.080222, 11.134861],
+    info: "Località Fontanasanta, Trento"
+  },
+  {
+    nome: "Giardino Martignano",
+    coords: [46.089022, 11.150937],
+    info: "Via Martignano, Trento"
+  },
+  {
+    nome: "Parco di Melta",
+    coords: [46.081920, 11.119470],
+    info: "Melta, Trento"
+  },
+  {
+    nome: "Parco Roncafort",
+    coords: [46.099990, 11.102150],
+    info: "Roncafort, Trento"
+  }
+];
 
-
-    //Parco di test (Giardino Alexander Langer)
-
-    var parkCoords = [
-    [46.0549, 11.1251],
-    [46.0537, 11.1233],
-    [46.0541, 11.1230],
-    [46.0549, 11.1237],
-    [46.0556, 11.1272],
-    [46.0553, 11.1289],
-    [46.0550, 11.1290]
-    ];
-
-    //Crea in automatico un poligono con le coordinate
-    var giardino = L.polygon(parkCoords, {
-        color: "#007a00",
-        fillColor: "#00cc44",
-        fillOpacity: 0.4
-    }).addTo(mappa);
-
-    //Posso metterci una qualunque roba html qua dentro
-    giardino.bindPopup(`
-        <div class="popup-scheda">
-            <h3>Giardino Alexander Langer</h3>
-            <p><b>Area:</b> 1.2 ha</p>
-            <p><b>Tipologia:</b> Parco urbano</p>
-            <p><b>Apertura:</b> 08:00 - 20:00</p>
-            <p><b>Note:</b> Ideale per ubriacarsi e fare rissa.</p>
-        </div>
-    `);
-
-
-
-
-
-
-
-    //Disabilito lo spostamento quando non sono zoommato perchè altrimenti "rimbalza" ed è brutto
-    function limitaSpostamento() {
-      if(mappa.getZoom() === zoomMin) mappa.dragging.disable();
-      else mappa.dragging.enable();
-    }
-
-    limitaSpostamento();
-    mappa.on('zoomend', limitaSpostamento); //Ad ogni modifica dello zoom controllo se posso muovermi 
-
-  </script>
+parks.forEach(function(parco) {
+  var marker = L.marker(parco.coords, { icon: parkIconBase }).addTo(mappa);
+  marker.bindPopup(`
+    <div class="popup-scheda">
+      <h3>${parco.nome}</h3>
+      <p><b>Località:</b> ${parco.info}</p>
+      <p><b>Tipologia:</b> Parco urbano</p>
+      <p><b>Apertura:</b> 08:00 - 20:00</p>
+      <p><b>Note:</b> Spazio verde pubblico</p>
+    </div>
+  `);
+});
+</script>
 </body>
 </html>
