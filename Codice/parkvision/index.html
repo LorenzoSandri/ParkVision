@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ParkVision</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> <!-- Importo il foglio di stile della mappa -->
+  <link rel="stylesheet" href="grafica/pubblico.css"> <!-- Importo la grafica -->
+  
+</head>
+<body>
+  <div id="menu_sidebar">&#9776;</div> <!-- L'icona del menu per la sidebar -->
+
+  <!-- Sidebar con i vari link -->
+  <div id="sidebar">
+    <a href="#" id="login_open">Login</a>
+    <a href="">Segnalazioni</a>
+    <a href="">Fai Segnalazione</a>
+    <a href="">Feedback Sito</a>
+  </div>
+
+
+
+  <!-- Finestra di login -->
+  <div id="login_HUD">
+    <h3>Login</h3>
+    <input type="text" placeholder="User">
+    <input type="password" placeholder="Password">
+    <button id="login_do">Accedi</button>
+    <button id="login_close">Chiudi</button>
+  </div>
+
+
+
+
+  <!-- Menu per i filtri -->
+  <div id="menu_filtri">&#9776;</div>
+
+  <div id="filtri_HUD">
+    <h3>Filtri</h3>
+
+    <button id="filtri_close" class="close-btn">X</button>
+
+    <div id="filtri_container">
+        <div class="filtro"><label><input type="checkbox"> Fontane</label></div>
+        <div class="filtro"><label><input type="checkbox"> Aree cani</label></div>
+        <div class="filtro"><label><input type="checkbox"> Campi sportivi</label></div>
+        <div class="filtro"><label><input type="checkbox"> Aree picnic</label></div>
+        <div class="filtro"><label><input type="checkbox"> Piste ciclabili</label></div>
+        <div class="filtro"><label><input type="checkbox"> Accesso disabili</label></div>
+    </div>
+  </div>
+
+
+
+  <div id="mappa"></div>
+
+  <!-- Carico e mostro i parchi -->
+  
+
+
+
+
+
+
+  <!-- Importo gli script -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="back_end/pubblico.js"></script>
+
+</body>
+</html>
