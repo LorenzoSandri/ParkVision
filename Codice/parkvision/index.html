@@ -42,23 +42,20 @@
 
     <button id="filtri_close" class="close-btn">X</button>
 
+    <!-- div class="filtro" forse non serve perche non la uso nella dashboard, però non è un problema per oggi -->
     <div id="filtri_container">
-        <div class="filtro"><label><input type="checkbox"> Fontane</label></div>
-        <div class="filtro"><label><input type="checkbox"> Aree cani</label></div>
-        <div class="filtro"><label><input type="checkbox"> Campi sportivi</label></div>
-        <div class="filtro"><label><input type="checkbox"> Aree picnic</label></div>
-        <div class="filtro"><label><input type="checkbox"> Piste ciclabili</label></div>
-        <div class="filtro"><label><input type="checkbox"> Accesso disabili</label></div>
+        <div class="filtro"><label><input type="checkbox" value="1"> Fontane</label></div>
+        <div class="filtro"><label><input type="checkbox" value="2"> Aree cani</label></div>
+        <div class="filtro"><label><input type="checkbox" value="3"> Campi sportivi</label></div>
+        <div class="filtro"><label><input type="checkbox" value="4"> Aree picnic</label></div>
+        <div class="filtro"><label><input type="checkbox" value="5"> Piste ciclabili</label></div>
+        <div class="filtro"><label><input type="checkbox" value="6"> Accesso disabili</label></div>
     </div>
   </div>
 
 
 
   <div id="mappa"></div>
-
-  <!-- Carico e mostro i parchi -->
-  
-
 
 
 
@@ -67,6 +64,7 @@
   <!-- Importo gli script -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="back_end/pubblico.js"></script>
+  <script src="back_end/mappa.js"></script>
 
 </body>
 </html>
