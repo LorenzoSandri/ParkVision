@@ -1,0 +1,156 @@
+#mappa {
+    height: 80%;
+    width: 40%;
+    position: absolute;
+    top: 100px;
+    right: 60px;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ============================================== */
+/* Filtri */
+
+#filtri {
+    padding: 10px;
+    background: #e6e6e6;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.dropdown-btn {
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    display: none;
+    min-width: 180px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 100;
+}
+
+.dropdown-menu label {
+    display: block;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+/* ============================================== */
+/* Lista */
+
+#lista {
+    width: 30%;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    padding: 10px;
+    background: #fafafa;
+}
+
+.parco {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.parco .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.parco .btn_intervento {
+    position: relative;
+    font-size: 28px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.9);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* ============================================== */
+/* Menu creazione interventi */
+
+#intervento_HUD {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  z-index: 2000;
+  width: 250px;
+  text-align: center;
+}
+
+#intervento_HUD input {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+  padding: 8px;
+}
+
+#intervento_HUD button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+/* Per il pop up finale */
+#popup_salvataggio {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Centro {
+    position: absolute;
+    text-align: center;
+    top: 200px;
+    left: 670px;
+}
