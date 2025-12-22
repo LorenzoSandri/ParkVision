@@ -1,0 +1,6 @@
+la idea con cui io ho scritto la mia parte è :
+- il Front-end invia un JSON a http://localhost:3000/API/interventi/nuovo.
+- server.js lo riceve e lo traduce grazie a express.json().
+- routes/interventi.js vede che la richiesta è /nuovo e la manda al controller.
+- controllers/interventi.js prende il client di MongoDB, apre la collezione e salva il dato.
+- Il Database MongoDB Atlas memorizza il nuovo intervento.

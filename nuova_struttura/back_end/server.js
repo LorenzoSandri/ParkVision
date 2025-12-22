@@ -6,6 +6,9 @@ const app = express();
 const port = 3000;
 const DB = process.env.MONGO_URI;
 
+// Questo permette al server di leggere i dati (JSON) che arrivano dai form del front-end
+app.use(express.json());
+
 //Middleware per gestire i file HTML e JS
 app.use(express.static(__dirname));
 
@@ -27,9 +30,13 @@ connectDB();
 // ----------------
 
 
-//Importo le varie API
+//Importo le varie API 
 const parchiAPI = require('./controllers/parchi')(client);
 app.use('/API/parchi', parchiAPI);
+
+const interventiAPI = require('./controllers/interventi')(client);
+app.use('/API/interventi', interventiAPI);
+
 
 
 // ----------------
