@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { MongoClient } = require('mongodb');
+const path = require('path'); // Serve per i percorsi delle cartelle
 
 const app = express();
 const port = 3000;
@@ -10,7 +11,10 @@ const DB = process.env.MONGO_URI;
 app.use(express.json());
 
 //Middleware per gestire i file HTML e JS
-app.use(express.static(__dirname));
+//app.use(express.static(__dirname));
+
+// Questo dice al server di andare a pescare i file nella cartella del front-end
+app.use(express.static(path.join(__dirname, '../front_end')));
 
 //Connessione al DB
 const client = new MongoClient(DB);
@@ -31,15 +35,21 @@ connectDB();
 
 
 //Importo le varie API 
-const parchiAPI = require('./controllers/parchi')(client);
+const parchiAPI = require('./routes/parchi')(client);
 app.use('/API/parchi', parchiAPI);
 
-const interventiAPI = require('./controllers/interventi')(client);
+const interventiAPI = require('./routes/interventi')(client);
 app.use('/API/interventi', interventiAPI);
 
 
 
 // ----------------
+
+// Gestione di Vue Router: se l'utente ricarica la pagina su /interventi,
+// il server deve comunque mandargli l'index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front_end/index.html'));
+});
 
 //Avvio il server
 app.listen(port, () => {

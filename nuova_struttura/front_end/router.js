@@ -7,12 +7,12 @@ const routes = [
     name: 'Home',
     component: () => import('./app.vue') // Per ora usiamo app.vue come pagina principale
   },
-  {
-    path: '/interventi',     // L'indirizzo della tua sezione
+   {
+    path: '/interventi',
     name: 'GestioneInterventi',
-    // Qui andrà il componente della tua dashboard (lo creeremo dopo)
-    component: () => import('./app.vue') 
-  }
+    // Carichiamo il tuo file che si troverà nella cartella views
+    component: () => import('./views/GestioneInterventi.vue')
+  },
 ];
 
 const router = createRouter({
