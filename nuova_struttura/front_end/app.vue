@@ -1,17 +1,11 @@
 <template>
-  <div id="app">
-    <!-- Questo componente di Vue fa apparire la pagina corrispondente all'indirizzo URL -->
-    <router-view />
+  <div id="layout">
+    <nav>
+      <router-link to="/">Home</router-link> | 
+      <router-link to="/interventi">Interventi</router-link>
+    </nav>
+    
+    <!-- Qui verranno caricate le pagine Home.vue o GestioneInterventi.vue -->
+    <router-view /> 
   </div>
 </template>
-
-<script>
-export default {
-  name: 'App'
-}
-</script>
-
-<style>
-/* Qui si possono mettere stili globali  */
-body { margin: 0; font-family: sans-serif; }
-</style>

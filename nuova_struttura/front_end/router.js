@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',               // Indirizzo base (Home)
     name: 'Home',
-    component: () => import('./app.vue') // Per ora usiamo app.vue come pagina principale
+    component: () => import('./views/Home.vue') // Per ora usiamo app.vue come pagina principale
   },
    {
     path: '/interventi',
