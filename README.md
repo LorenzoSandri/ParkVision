@@ -4,16 +4,21 @@
 - Vai sulla cartella **`backend`**:
   - Installa le librerie necessarie:
     ```bash
-    npm install dotenv express mongoose cors
+    npm install
     ```
   - Avvia il server:
     ```bash
     node server.js
     ```
-- Vai sulla cartella **`frontend`** e scrivi:
-  ```bash
-  npm run dev
-  ```
+- Vai sulla cartella **`frontend`**:
+  - Installa le librerie necessarie:
+    ```bash
+    npm install
+    ```
+  - fai partire il server in locale in modalità sviluppo:
+    ```bash
+    npm run dev
+    ```
 
 <br><br>
 
