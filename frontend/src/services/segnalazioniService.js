@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3000/api/segnalazioni';
+const URL = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000') + '/api/segnalazioni';
 
 
 export const getAllSegnalazioni = async () => {
