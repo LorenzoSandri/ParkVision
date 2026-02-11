@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3000/api/auth';
+const URL = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000') + '/api/auth';
 
 
 export const register = async (info) => {
