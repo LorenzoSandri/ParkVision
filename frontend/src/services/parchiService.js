@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3000/api/parchi';
+const URL = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000') + '/api/parchi';
 
 
 export const getAllParchi = async () => {
