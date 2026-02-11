@@ -99,7 +99,7 @@
             //Salvo i token
             localStorage.setItem('jwt', loginRes.token)
             localStorage.setItem('username', loginRes.username)
-            localStorage.setItem('ruolo', res.ruolo)
+            localStorage.setItem('ruolo', loginRes.ruolo)
 
 
             router.push('/public') //Posso creare solo account base da qui, quindi il redirect è sempre alla parte pubblica
