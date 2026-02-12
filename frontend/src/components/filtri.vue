@@ -15,7 +15,7 @@
 
 
 <script setup>
-    import { watch, ref } from 'vue'
+    import { watch, ref, computed } from 'vue'
     import ButtonVue from './button.vue'
 
     const props = defineProps({
