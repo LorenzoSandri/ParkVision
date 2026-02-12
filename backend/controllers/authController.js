@@ -2,17 +2,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Utente = require('../models/utente')
 
-const JWT_SECRET = process.env.JWT_SECRET //Chiave di codifica per il token
-
-
-exports.getAllUtenti = async (req, res) => {
-    try {
-        const utenti = await Utente.find().select('-password')
-        res.json(utenti)
-    } catch(error){
-        res.sendStatus(500)
-    }
-}
 
 exports.register = async (req, res) => {
     try {
@@ -38,7 +27,7 @@ exports.register = async (req, res) => {
         })
         const utente = await t.save()
 
-        res.json(utente)
+        res.status(201).json(utente)
     } catch(error){
         res.sendStatus(500)
     }
@@ -60,11 +49,11 @@ exports.login = async (req, res) => {
         //Genero il token
         const token = jwt.sign(
             { id: utente._id, username: utente.username },
-            JWT_SECRET,
+            process.env.JWT_SECRET,
             { expiresIn: '1h' }
         )
         
-        res.json({ token, username: utente.username, ruolo: utente.ruolo })
+        res.status(200).json({ token, username: utente.username, ruolo: utente.ruolo })
     } catch(error){
         res.sendStatus(500)
     }

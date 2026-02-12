@@ -6,19 +6,7 @@ const Intervento = require('../models/intervento')
 exports.getAllParchi = async (req, res) => {
     try {
         const parchi = await Parco.find()
-        res.json(parchi)
-    } catch(error){
-        res.sendStatus(500)
-    }
-}
-
-exports.getParcoById = async (req, res) => {
-    try {
-        const parco = await Parco.findById(req.params.id)
-
-        if(!parco) return res.sendStatus(404)
-
-        res.json(parco)
+        res.status(200).json(parchi)
     } catch(error){
         res.sendStatus(500)
     }
@@ -30,7 +18,7 @@ exports.updateParco = async (req, res) => {
 
         if(!parco) return res.sendStatus(404)
 
-        res.json(parco)
+        res.status(200).json(parco)
     } catch(error){
         res.sendStatus(500)
     }
@@ -41,7 +29,7 @@ exports.createParco = async (req, res) => {
         const t = new Parco(req.body)
         const parco = await t.save()
 
-        res.json(parco)
+        res.status(201).json(parco)
     } catch(error){
         res.sendStatus(500)
     }
