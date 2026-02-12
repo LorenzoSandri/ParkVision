@@ -11,16 +11,6 @@ export const getAllInterventi = async () => {
     } catch { return [] }
 }
 
-export const getInterventoById = async (id) => {
-  try {
-    const res = await fetch(`${URL}/${id}`)
-    
-    if(!res.ok) return null
-
-    return await res.json()
-  } catch { return null }
-}
-
 export const createIntervento = async (info) => {
   try {
     const res = await fetch(URL, {
