@@ -27,4 +27,6 @@ module.exports = mongoose.model('intervento', new Schema({
     info: { type: String, required: true },
     responsabile: { type: String, required: true },
     rinnovo: { type: Number, required: false, default: -1 } //Se è >0 allora si rinnova
+}, {
+    collection: 'interventi' // interventos era meglio come nome, ma come tutte le cose belle deve finire
 }));

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-module.exports = mongoose.model('park', new Schema({
+module.exports = mongoose.model('parco', new Schema({
     nome: { type: String, required: true },
     zona: { type: String, required: true },
     info: { type: String, required: true },
@@ -31,4 +31,6 @@ module.exports = mongoose.model('park', new Schema({
             required: true
         }
     }
+}, {
+    collection: 'parchi'
 }))
