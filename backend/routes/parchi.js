@@ -2,9 +2,8 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/parchiController')
 
-//Restituisce tutti i parchi, o il parco che matcha l'ID
+//Restituisce tutti i parchi
 router.get('/', controller.getAllParchi)
-router.get('/:id', controller.getParcoById)
 
 //Aggiunge un nuovo parco
 router.post('/', controller.createParco)
