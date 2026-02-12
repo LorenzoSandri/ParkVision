@@ -13,8 +13,8 @@
       </div>
 
       <div class="listeBtn">
-        <ButtonVue class="filtriBtn" @click="filtriOpen=true; segnalazioniOpen=false">Visualizza filtri</ButtonVue>
-        <ButtonVue class="segnalazioniBtn" @click="segnalazioniOpen=true; filtriOpen=false">Visualizza segnalazioni</ButtonVue>
+        <ButtonVue class="filtriBtn" @click="filtriOpen=!filtriOpen; segnalazioniOpen=false">Visualizza filtri</ButtonVue>
+        <ButtonVue class="segnalazioniBtn" @click="segnalazioniOpen=!segnalazioniOpen; filtriOpen=false">Visualizza segnalazioni</ButtonVue>
       </div>
       
       <div class="lista">
@@ -25,7 +25,6 @@
           :mapItem="mapSegnalazione"
           :tipo="'segnalazionePublic'"
           :showCreate="false"
-          @select="modificaSegnalazione"
         />
       </div>
       
@@ -155,4 +154,5 @@
     top: 20px;
     right: 20px;
   }
+
 </style>
