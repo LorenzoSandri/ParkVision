@@ -12,10 +12,22 @@
         <SegnalazioneHUD v-if="reportOpen" :utente="utenteLoggato" :parchi="parks" @send="invioSegnalazione" @close="reportOpen = false"/>
       </div>
 
-      <div class="filtri">
-        <Filtri :types="arrayFiltri" v-model="filtriAttivi"/>
+      <div class="listeBtn">
+        <ButtonVue class="filtriBtn" @click="filtriOpen=true; segnalazioniOpen=false">Visualizza filtri</ButtonVue>
+        <ButtonVue class="segnalazioniBtn" @click="segnalazioniOpen=true; filtriOpen=false">Visualizza segnalazioni</ButtonVue>
       </div>
-
+      
+      <div class="lista">
+        <Filtri v-if="filtriOpen" :types="arrayFiltri" v-model="filtriAttivi" @close="filtriOpen=false"/>
+        <SegnalazioniLista v-if="segnalazioniOpen"
+          :items="segnalazioni"
+          :headers="headersSegnalazioni"
+          :mapItem="mapSegnalazione"
+          :tipo="'segnalazionePublic'"
+          :showCreate="false"
+          @select="modificaSegnalazione"
+        />
+      </div>
       
     </div>
   </div>
@@ -27,13 +39,16 @@
   import Map from '../components/map.vue'
   import Filtri from '../components/filtri.vue'
   import { getAllParchi } from '../services/parchiService.js'
-  import { createSegnalazione } from '../services/segnalazioniService.js'
+  import { createSegnalazione, getAllSegnalazioni } from '../services/segnalazioniService.js'
   import SegnalazioneHUD from '../components/segnalazioneMake.vue'
   import ButtonVue from '../components/button.vue'
+  import SegnalazioniLista from '../components/dashboard/listaItems.vue'
 
   const router = useRouter()
   const reportOpen = ref(false)
   const utenteLoggato = ref(localStorage.getItem('username') || '') //Prendo l'username della sessione
+  const filtriOpen = ref(false)
+  const segnalazioniOpen = ref(false)
 
 
   // --------------
@@ -79,6 +94,7 @@
 
     if(!res) alert("Errore nell'invio")
     else reportOpen.value = false
+    segnalazioni.value = await getAllSegnalazioni()
   }
 
 
@@ -90,6 +106,24 @@
 
     router.push('/')
   }
+
+
+  // --------------
+  //Lista delle segnalazioni
+
+  const headersSegnalazioni = ['Nome Parco', 'Descrizione', 'Data']
+
+  const segnalazioni = ref([])
+  onMounted(async () => { segnalazioni.value = await getAllSegnalazioni() })
+
+  function mapSegnalazione(s){
+    return [
+      parks.value.find(p => p._id === s.parco_id).nome,
+      s.info,
+      new Date(s.data).toLocaleDateString()
+    ]
+  }
+
 </script>
 
 <style scoped>
