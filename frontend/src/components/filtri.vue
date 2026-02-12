@@ -31,15 +31,9 @@
 
     const emit = defineEmits(['update:modelValue'])
 
-    const localTypes = ref([...props.modelValue])
-
-    //Questo watch aggiorna i filtri locali quando cambiano quelli della view
-    watch( () => props.modelValue, (newVal) => {
-        localTypes.value = [...newVal]
-    })
-    //Questo aggiorna quello della view quando cambiano quelli locali
-    watch(localTypes, (newVal) => {
-        emit('update:modelValue', newVal)
+    const localTypes = computed({
+        get: () => props.modelValue,
+        set: (val) => emit('update:modelValue', val)
     })
 
     function reset(){
