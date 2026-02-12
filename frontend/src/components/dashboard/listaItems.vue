@@ -6,8 +6,8 @@
         {{ h }}
       </span>
 
-      <span v-if="showCreate">
-        <ButtonVue @click="$emit('create')">Crea Nuovo</ButtonVue>
+      <span>
+        <ButtonVue v-if="showCreate" @click="$emit('create')">Crea Nuovo</ButtonVue>
       </span>
     </div>
 
@@ -16,6 +16,7 @@
       :key="item._id"
       :item="item"
       :values="mapItem(item)"
+      :tipo="tipo"
       @select="$emit('select', item)"
     />
   </div>
@@ -38,9 +39,14 @@
       type: Function,
       required: true
     },
-    showCreate: {
+    tipo: { // 'parco' | 'segnalazione' | 'intervento'
+      type: String,
+      required: true
+    },
+    showCreate: { //Se mostrare o no il bottone per creare nuovo
       type: Boolean,
-      default: false
+      required: false,
+      default: true
     }
   })
 

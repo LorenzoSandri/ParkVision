@@ -4,7 +4,7 @@
       {{ value }}
     </span> 
 
-    <ButtonVue class="icon-btn" @click="$emit('select', item)">+</ButtonVue>
+    <ButtonVue v-if="tipo !== 'segnalazionePublic'" class="icon-btn" @click="$emit('select', item)">{{ tipo === 'segnalazione' ? 'Risolvi' : 'Gestisci' }}</ButtonVue>
   </div>
 </template>
 
@@ -20,8 +20,11 @@
     values: {
       type: Array,
       required: true
+    },
+    tipo: {
+      type: String,
+      required: true
     }
-
   })
 
   defineEmits(['select'])
@@ -39,14 +42,11 @@
   }
 
   .icon-btn {
-    width: 32px;
-    height: 32px;
+    width: 80px;
+    height: 40px;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    font-size: 30px;
-    font-weight: bold;
   }
 </style>

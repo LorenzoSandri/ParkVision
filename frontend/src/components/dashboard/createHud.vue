@@ -19,7 +19,7 @@
                 </template>
 
                 <!-- Per gli INTERVENTI -->
-                <template v-else>
+                <template v-else-if="tipo === 'intervento'">
                     <select v-model="form.parco_id">
                         <option disabled value="">Seleziona un parco</option>
                         <option v-for="p in parchi" :key="p._id" :value="p._id">{{ p.nome }}</option>
@@ -32,6 +32,16 @@
                     <select v-model="form.tipologia">
                         <option disabled value="">Seleziona una tipologia</option>
                         <option v-for="t in tipologie" :key="t" :value="t">{{ t }}</option>
+                    </select>
+
+                    <textarea v-model="form.info" placeholder="Descrizione"></textarea>
+                </template>
+
+                <!-- Per le SEGNALAZIONI -->
+                <template v-else>
+                    <select v-model="form.parco_id">
+                        <option disabled value="">Seleziona un parco</option>
+                        <option v-for="p in parchi" :key="p._id" :value="p._id">{{ p.nome }}</option>
                     </select>
 
                     <textarea v-model="form.info" placeholder="Descrizione"></textarea>
