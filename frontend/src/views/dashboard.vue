@@ -27,7 +27,7 @@
           :items="parchiFiltrati"
           :headers="headersParchi"
           :mapItem="mapParco"
-          :showCreate="true"
+          :tipo="'parco'"
           @select="handleItemHUD"
           @create="handleCreateHUD('parco')"
         />
@@ -37,6 +37,8 @@
           :items="segnalazioniFiltrate"
           :headers="headersSegnalazioni"
           :mapItem="mapSegnalazione"
+          :tipo="'segnalazione'"
+          @create="handleCreateHUD('segnalazione')"
           @select="risolviSegnalazione"
         />
 
@@ -45,7 +47,7 @@
           :items="interventiFiltrati"
           :headers="headersInterventi"
           :mapItem="mapIntervento"
-          :showCreate="true"
+          :tipo="'intervento'"
           @create="handleCreateHUD('intervento')"
           @select="handleItemHUD"
         />
@@ -84,7 +86,7 @@
   import { useRouter } from 'vue-router'
   import Map from '../components/map.vue'
   import { getAllParchi, createParco, updateParco, deleteParco } from '../services/parchiService.js'
-  import { getAllSegnalazioni, updateSegnalazione } from '../services/segnalazioniService.js'
+  import { createSegnalazione, getAllSegnalazioni, updateSegnalazione } from '../services/segnalazioniService.js'
   import { getAllInterventi, createIntervento, updateIntervento, deleteIntervento } from '../services/interventiService.js'
   import ListaItem from '../components/dashboard/listaItems.vue'
   import ItemHUD from '../components/dashboard/itemHud.vue'
@@ -323,7 +325,7 @@
         segnalazioni.value = await getAllSegnalazioni()
         interventi.value = await getAllInterventi()
       }
-      else if(activeTab.value = 'Interventi'){
+      else if(activeTab.value === 'Interventi'){
         await deleteIntervento(itemSelezionato.value._id)
 
         interventi.value = await getAllInterventi()
@@ -361,12 +363,26 @@
           responsabile: dati.responsabile,
         }
 
-        console.log(payload)
         await createIntervento(payload)
 
         createOpen.value = false
         interventi.value = await getAllInterventi()
 
+      } catch(err) { console.error(err) }
+    }else if(dati.tipo === 'segnalazione'){
+      try {
+        const payload = {
+          parco_id: dati.parco_id,
+          data: new Date(),
+          stato: false,
+          info: dati.info,
+          utente: localStorage.getItem('username') || ''
+        }
+
+        await createSegnalazione(payload)
+
+        createOpen.value = false
+        segnalazioni.value = await getAllSegnalazioni()
       } catch(err) { console.error(err) }
     }
   }
