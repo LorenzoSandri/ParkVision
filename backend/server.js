@@ -1,27 +1,11 @@
 require('dotenv').config()
-const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors')
+const app = require('./app')
 
-const parchiRouter = require('./routes/parchi')
-const segnalazioniRouter = require('./routes/segnalazioni')
-const interventiRouter = require('./routes/interventi')
-const authRouter = require('./routes/auth')
 
-const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const DB = process.env.MONGO_URI
 
-app.use(cors())
-app.use(express.json())
-
-// ----------------
-
-//Invia le richieste /API/<nome>, al router giusto
-app.use('/api/parchi', parchiRouter)
-app.use('/api/segnalazioni', segnalazioniRouter)
-app.use('/api/interventi', interventiRouter)
-app.use('/api/auth', authRouter)
 
 // ----------------
 
