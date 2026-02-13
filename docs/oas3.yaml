@@ -1,0 +1,468 @@
+openapi: 3.0.0
+info:
+  version: "1.0"
+  title: ParkVision OpenApi 3.0
+  description: API per la gestione dei servizi relativi ai parchi pubblici
+  license:
+    name: MIT
+servers:
+  - url: https://parkvision-33gg.onrender.com/api/
+    description: Server pubblico
+  - url: http://localhost:3000/api/
+    description: LocalHost
+paths:
+  /parchi:
+    get:
+      summary: Restituisce tutti i parchi
+      description: Recupera la lista di tutti i parchi nel database
+      responses:
+        '200':
+          description: Lista dei parchi
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Parco'
+
+        '500':
+          description: Errore interno del server
+    post:
+      summary: Crea un nuovo parco
+      description: Aggiunge un nuovo parco al database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parco'
+      responses:
+        '201':
+          description: Parco creato con successo
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Parco'
+        '500':
+          description: Errore interno del server
+  /parchi/{id}:
+    put:
+      summary: Aggiorna un parco
+      description: Modifica i valori del parco identificato dall'ID
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: L'ID del parco da modificare
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parco'
+      responses:
+        '200':
+          description: Parco aggiornato con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parco'
+        '404':
+          description: Parco non trovato
+        '500':
+          description: Errore interno del server
+    delete:
+      summary: Cancella un parco
+      description: >
+        Elimina il parco identificato dall'ID
+        Tutte le segnalazioni e gli interventi collegati vengono eliminati
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: L'ID del parco da eliminare
+      responses:
+        '204':
+          description: Parco cancellato con successo
+        '404':
+          description: Parco non trovato
+        '500':
+          description: Errore interno del server
+  /segnalazioni:
+    get:
+      summary: Restituisce tutte le segnalazioni
+      description: Recupera la lista di tutte le segnalazioni nel database
+      responses: 
+        '200':
+          description: Lista delle segnalazioni
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Segnalazione'
+        '500':
+          description: Errore interno del server
+
+    post:
+      summary: Crea una nuova segnalazione
+      description: Aggiunge una nuova segnalazione al database
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Segnalazione'
+      responses:
+        '201':
+          description: Segnalazione creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Segnalazione'
+        '500':
+          description: Errore interno del server
+  /segnalazioni/{id}:
+    put:
+      summary: Aggiorna una segnalazione
+      description: Modifica i valori della segnalazione identificata dall'ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: L'ID della segnalazione da modificare
+      requestBody: 
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Segnalazione'
+      responses:
+        '200':
+          description: Segnalazione aggiornata con successo
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Segnalazione'
+        '404':
+          description: Segnalazione non trovata
+        '500':
+          description: Errore interno del server
+  /interventi:
+    get:
+      summary: Restituisce tutti gli interventi
+      description: Recupera la lista di tutti gli interventi nel database
+      responses:
+        '200':
+          description: Lista degli interventi
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Intervento'
+        '500':
+          description: Errore interno del server
+    post:
+      summary: Crea un nuovo intervento
+      description: Aggiunge un nuovo intervento al database
+      requestBody: 
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Intervento'
+      responses:
+        '201':
+          description: Intervento creato con successo
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Intervento'
+        '500':
+          description: Errore interno del server
+  /interventi/{id}:
+    put:
+      summary: Aggiorna un intervento
+      description: Modifica i valori dell'intervento identificato dall'ID
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: L'ID dell'intervento da modificare
+      requestBody: 
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Intervento'
+      responses:
+        '200':
+          description: Intervento aggiornato con successo
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Intervento'
+        '404':
+          description: Intervento non trovato
+        '500':
+          description: Errore interno del server
+    delete:
+      summary: Cancella un intervento
+      description: Elimina l'intervento identificato dall'ID
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: L'ID dell'intervento da eliminare
+      responses:
+        '204':
+          description: Intervento cancellato con successo
+        '404':
+          description: Intervento non trovato
+        '500':
+          description: Errore interno del server
+  /auth/register:
+    post:
+      summary: Crea un nuovo utente
+      description: >
+        Aggiunge un nuovo utente al database
+        Se mancano dei parametri o l'utente già esiste restituisce un errore
+      requestBody: 
+        required: true
+        content:
+          application/json: 
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties: 
+                username:
+                  type: string
+                  description: Nome utente univoco
+                email:
+                  type: string
+                  format: email
+                  description: Indirizzo email univoco
+                password:
+                  type: string
+                  description: Password dell'account
+                ruolo:
+                  type: string
+                  enum:
+                    - operatore
+                    - utente
+                  default: utente
+                  description: Ruolo del utente (opzionale)
+      responses:
+        '201':
+          description: Utente creato con successo
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Utente'
+        '400':
+          description: Campi non compilati
+        '409':
+          description: Nome utente o email già esistenti
+        '500':
+          description: Errore interno del server
+  /auth/login:
+    post:
+      summary: Login utente
+      description: >
+        Autentica un utente usando i suoi username e password
+        Se mancano dei parametri o le credenziali sono sbagliate restituisce un errore
+      requestBody: 
+        required: true
+        content:
+          application/json: 
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties: 
+                username:
+                  type: string
+                  description: Nome utente già registrato
+                password:
+                  type: string
+                  description: Password associata all'utente
+      responses: 
+        '200':
+          description: Login eseguito con successo, restituiscce il token JWT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  token:
+                    type: string
+                    description: Token JWT valido per 1 ora
+                  username:
+                    type: string
+                    description: Nome utente autenticato
+                  ruolo:
+                    type: string
+                    description: Ruolo dell'utente
+        '400':
+          description: Parametri non compilati
+        '401':
+          description: Credenziali non corrette
+        '500':
+          description: Errore interno del server
+components:
+  schemas: 
+    Parco:
+      type: object
+      required:
+        - nome
+        - zona
+        - info
+        - coords
+      properties: 
+        nome:
+          type: string
+        zona:
+          type: string
+        info:
+          type: string
+        fontane:
+          type: boolean
+        tavoli:
+          type: boolean
+        panchine:
+          type: boolean
+        areaCani:
+          type: boolean
+        percorsiCiclabili:
+          type: boolean
+        percorsiFitness:
+          type: boolean
+        giochi:
+          type: boolean
+        parcheggio:
+          type: boolean
+        accessoDisabili:
+          type: boolean
+        illuminazione:
+          type: boolean
+        campoBasket:
+          type: boolean
+        campoCalcio:
+          type: boolean
+        campoPallavolo:
+          type: boolean
+        coords:
+          type: object
+          required:
+            - type
+            - coordinates
+          properties: 
+            type:
+              type: string
+              enum: ['MultiPolygon']
+            coordinates:
+              type: array
+              items:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+    Segnalazione:
+      type: object
+      required:
+        - parco_id
+        - data
+        - stato
+        - info
+        - utente
+      properties: 
+        parco_id:
+          type: string
+        data:
+          type: string
+          format: date-time
+        stato:
+          type: boolean
+        info:
+          type: string
+        utente:
+          type: string
+    Intervento:
+      type: object
+      required:
+        - parco_id
+        - dataPrevista
+        - tipo
+        - info
+        - responsabile
+      properties: 
+        parco_id:
+          type: string
+        dataPrevista:
+          type: string
+          format: date-time
+        tipo:
+          type: string
+          enum:
+            - 'taglio erba'
+            - 'potatura'
+            - 'pulizia vialetti'
+            - 'controllo irrigazione'
+            - 'raccolta rifiuti'
+            - 'riparazione giochi'
+            - 'controllo recinzioni'
+            - 'ripristino illuminazione'
+            - 'verifica attrezzature sportive'
+            - 'trattamenti fitosanitari'
+            - 'ripristino prati'
+            - 'installazione attrezzature'
+            - 'eventi speciali'
+            - 'rimozione graffiti'
+            - 'raccolta rifiuti ingombranti'
+            - 'pulizia fontane'
+        info:
+          type: string
+        responsabile:
+          type: string
+        rinnovo:
+          type: number
+          default: -1
+    Utente:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - ruolo
+      properties: 
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        ruolo:
+          type: string
+          enum:
+            - operatore
+            - utente
+          default: utente
