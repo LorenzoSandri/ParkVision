@@ -44,8 +44,10 @@
         //Trovo il parco giusto per avere l'ID
         const parcoSelezionato = props.parchi.find(p => p.nome === parco.value)
 
-        if(!parcoSelezionato || !info.value.trim()) return //Per bloccare l'invio quando i campi non sono inviati
-
+        if(!parcoSelezionato || !info.value.trim()){ //Per bloccare l'invio quando i campi non sono inviati
+            alert('Campi non compilati')
+            return
+        }
         emit('send', {
             parco_id: parcoSelezionato._id,
             data: new Date(),
