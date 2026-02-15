@@ -61,6 +61,7 @@
       :tipo="activeTab === 'Parchi' ? 'parco': 'intervento'"
       :item="itemSelezionato"
       :nomeParco="parchi.find(p => p._id === itemSelezionato?.parco_id)?.nome || ''"
+      :tipologie="tipologie"
       @delete="handleDeleteItem"
       @send="handleUpdateItem"/>
     
@@ -306,7 +307,9 @@
         await updateIntervento(itemSelezionato.value._id, {
           ...itemSelezionato.value,
           dataPrevista: dati.dataPrevista,
-          rinnovo: dati.rinnovo
+          responsabile: dati.responsabile,
+          info: dati.info,
+          tipo: dati.tipologia
         })
 
         interventi.value = await getAllInterventi()
