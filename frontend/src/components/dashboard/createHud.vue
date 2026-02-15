@@ -102,6 +102,21 @@
     })
 
     function send(){
+        //Controllo che tutti i campi siano compilati
+        if(props.tipo === 'parco' && !(form.nome && form.zona && form.info && form.lat !== null && form.lng !== null)){
+            alert('Campi non compilati')
+            return
+        }
+        if(props.tipo === 'intervento' && !(form.parco_id && form.data && form.responsabile && form.tipologia && form.info)){
+            alert('Campi non compilati')
+            return
+        }
+        if(props.tipo === 'segnalazione' && !(form.parco_id && form.info)){
+            alert('Campi non compilati')
+            return
+        }
+
+
         emit('send', { ...form, tipo: props.tipo })
 
         Object.keys(form).forEach(k => form[k] = '')

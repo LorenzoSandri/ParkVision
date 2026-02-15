@@ -14,10 +14,17 @@
                 <!-- INTERVENTO -->
                 <template v-else-if="tipo === 'intervento'">
                     <input v-model="form.dataPrevista" type="Date"/>
-                    <textarea v-model="form.rinnovo" type="Number" placeholder="Rinnovo"></textarea>
+                    <textarea v-model="form.responsabile" type="text" placeholder="Responsabile"></textarea>
+
+                    <select v-model="form.tipologia">
+                        <option disabled value="">Seleziona una tipologia</option>
+                        <option v-for="t in tipologie" :key="t" :value="t">{{ t }}</option>
+                    </select>
+
+                    <textarea v-model="form.info" type="text" placeholder="Descrizione"></textarea>
                 </template>
                 
-                <ButtonVue @click="$emit('send', form)">Conferma</ButtonVue>
+                <ButtonVue @click="conferma">Conferma</ButtonVue>
             </div>
 
             <div v-else class="actions">
@@ -35,7 +42,7 @@
     import { reactive, ref } from 'vue'
     import ButtonVue from '../button.vue'
 
-    defineProps({
+    const props = defineProps({
         tipo: {
             type: String, // 'parco' o 'intervento'
             required: true
@@ -47,14 +54,19 @@
         nomeParco: {
             type: String,
             required: false
+        },
+        tipologie: {
+            type: Array,
+            required: false
         }
     })
 
     const form = reactive({
-        nome: '',
-        info: '',
-        dataPrevista: null,
-        rinnovo: -1
+        nome: props.item.nome || '',
+        info: props.item.info || '',
+        dataPrevista: props.item.dataPrevista ? props.item.dataPrevista.split('T')[0] : null,
+        responsabile: props.item.responsabile || '',
+        tipologia: props.item.tipo || ''
     })
 
     const emit = defineEmits(['send', 'delete', 'close'])
@@ -63,6 +75,20 @@
 
     function changeHUD() {
         modifica.value = true
+    }
+
+    //Controllo che tutti i campi sono compliati e modifico l'oggetto
+    function conferma(){
+        if(props.tipo === 'parco' && !(form.nome && form.info)){
+            alert('Campi non compilati')
+            return
+        }
+        if(props.tipo === 'intervento' && !(form.info && form.dataPrevista !== null && form.responsabile && form.tipologia)){
+            alert('Campi non compilati')
+            return
+        }
+
+        emit('send', form)
     }
 </script>
 
