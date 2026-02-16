@@ -20,7 +20,7 @@
       <div class="lista">
         <Filtri v-if="filtriOpen" :types="arrayFiltri" v-model="filtriAttivi" @close="filtriOpen=false"/>
         <SegnalazioniLista v-if="segnalazioniOpen"
-          :items="segnalazioni"
+          :items="segnalazioniAttive"
           :headers="headersSegnalazioni"
           :mapItem="mapSegnalazione"
           :tipo="'segnalazionePublic'"
@@ -89,6 +89,8 @@
 
   //Invio della segnalazione al DB
   async function invioSegnalazione(segnalazione){
+
+    
     const res = await createSegnalazione(segnalazione)
 
     if(!res) alert("Errore nell'invio")
@@ -114,6 +116,8 @@
 
   const segnalazioni = ref([])
   onMounted(async () => { segnalazioni.value = await getAllSegnalazioni() })
+
+  const segnalazioniAttive = computed( () => { return segnalazioni.value.filter(s => s.stato === false) })
 
   function mapSegnalazione(s){
     return [
@@ -154,5 +158,4 @@
     top: 20px;
     right: 20px;
   }
-
 </style>
