@@ -7,10 +7,10 @@
 
 
     <div class="info">
-      <ButtonVue class="logoutBtn" @click="logout">Logout</ButtonVue>
- 
       <!-- Tab di selezione -->
       <div class="tabs">
+        <ButtonVue class="logoutBtn" @click="logout">Logout</ButtonVue>
+
         <button
           v-for="tab in tabs" :key="tab" :class="{ active: activeTab === tab }" @click="activeTab = tab">
           {{ tab }}
@@ -437,9 +437,10 @@
     min-height: 0;
   }
 
-  .logoutBtn {
-    position: absolute;
-    top: 10px;
-    right: 480px;
+  .tabs .logoutBtn {
+    border: 1px solid #ccc;
+    background-color: #5555;
+    margin-right: 20px;
   }
+
 </style>
